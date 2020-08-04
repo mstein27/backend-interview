@@ -18,38 +18,32 @@ public class Main {
     File file = new File(classLoader.getResource(json1).getFile());
     Gson gson = new Gson();
 
-    Response response = gson.fromJson(new FileReader(file), Response.class);
+    Response response1 = gson.fromJson(new FileReader(file), Response.class);
 
-    List<Text> textDataList = response.textArray;
+    List<Text> textDataList = response1.textArray;
+
+    textDataList.sort(new SortById());
+
+    System.out.println("Task 1... \n");
+
+    for (Text text : textDataList) {
+      System.out.println(text.textdata);
+    }
+
+    System.out.println("Task 2... \n");
+
+    String json2 = "a2.json";
+    File file2 = new File(classLoader.getResource(json2).getFile());
+
+    Response response2 = gson.fromJson(new FileReader(file2), Response.class);
+
+    textDataList.addAll(response2.textArray);
 
     textDataList.sort(new SortById());
 
     for (Text text : textDataList) {
-      System.out.println(text.id);
+      System.out.println(text.textdata);
     }
-
-
-//        JsonReader jsonReader = new JsonReader(new FileReader("jsonFile.json"));
-//
-//        jsonReader.beginObject();
-//
-//
-//
-//        while (jsonReader.hasNext()) {
-//
-//            String name = jsonReader.nextName();
-//            if (name.equals("descriptor")) {
-//                readApp(jsonReader);
-//
-//            }
-//        }
-//
-//        jsonReader.endObject();
-//        jsonReader.close();
-
-//        Response response = gson.fromJson(yourJson, Response.class);
-
-      System.out.println("Hello, world.");
   }
 
   public static class SortById implements Comparator<Text> {

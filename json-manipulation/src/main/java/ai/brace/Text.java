@@ -2,10 +2,10 @@ package ai.brace;
 
 public class Text {
   public int id;
-  public String textData;
+  public String textdata;
 
-  public Text(int id, String textData) {
+  public Text(int id, String textdata) {
     this.id = id;
-    this.textData = textData;
+    this.textdata = textdata;
   }
 }
