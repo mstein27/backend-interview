@@ -8,7 +8,9 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Main {
   public static void main(String[] args) throws FileNotFoundException {
@@ -44,12 +46,39 @@ public class Main {
     for (Text text : textDataList) {
       System.out.println(text.textdata);
     }
+
+    System.out.println("Task 3... \n");
+
+    Map<String, Integer> counts = new HashMap<>();
+
+    for (Text text : textDataList) {
+      String[] words = text.textdata.split(" ");
+      for (int i = 0; i < words.length; i++) {
+        String word = words[i].replaceAll("[^a-zA-Z]", "").toLowerCase();
+        counts.put(word, counts.getOrDefault(word, 0) + 1);
+      }
+    }
+
+    List<String> sortedWords = new ArrayList(counts.keySet());
+    Collections.sort(sortedWords);
+
+    for (String word : sortedWords) {
+      System.out.println(String.format("(%s) : %s", word, counts.get(word)));
+    }
+
   }
 
   public static class SortById implements Comparator<Text> {
     @Override
     public int compare(Text a, Text b) {
       return a.id - b.id;
+    }
+  }
+
+  public static class SortByString implements Comparator<String> {
+    @Override
+    public int compare(String a, String b) {
+      return a.compareTo(b);
     }
   }
 }
