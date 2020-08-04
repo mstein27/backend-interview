@@ -2,6 +2,7 @@ package ai.brace;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -65,20 +66,22 @@ public class Main {
 
     System.out.println("\nTask 4... \n");
 
-    int epoch = Integer.parseInt(response2.lastModified);
+    int epoch = Integer.parseInt(response1.lastModified);
     String lastModified = DateTimeUtility.convertEpochToISO(epoch);
 
     UUID newUUID = UUID.randomUUID();
 
-    //A copy method for response could be useful.
-    Response newResponse = new Response(response1.version, newUUID, lastModified, response1.title, response1.author, response1.translator, response1.releaseDate, response1.language, textDataList);
+    //I merged these manually but another solution would be to have a merge method on the Response class that would handle merging and replacing null values.
+    //This could also lead to developer error easily. With more time, this could be abstracted by creating an array of responses, sorting by lastModified, and then merging.
+    Response newResponse = new Response(response1.version, newUUID, lastModified, response1.title, response1.author, response1.translator, response2.releaseDate, response1.language, textDataList);
 
     System.out.println(FileUtility.toJson(newResponse));
 
-//    FileWriter fileWriter = new FileWriter(classLoader.getResource("").getPath() + "output.json");
-//    fileWriter.write(gson.toJson(newResponse));
-//    fileWriter.close();
+    try {
+      FileUtility.write(newResponse);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
   }
-
 
 }
